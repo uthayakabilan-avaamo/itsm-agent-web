@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 
 const WIDGET_SRC =
-  "https://h1.avaamo.com/web_channel/channel/4271281f-177f-4488-acd9-0e92f6a3c19b/agentic_agents/widget.js";
+  "https://h1.avaamo.com/web_channel/channel/71386201-1ddb-4309-a4cb-d9118c4e3e3a/agentic_agents/widget.js";
 
 declare global {
   interface Window {

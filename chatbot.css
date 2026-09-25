@@ -1,0 +1,587 @@
+/* Alex chatbot — brand skin for the Avaamo web channel widget.
+   Targets the class names rendered in chatbot.html; load this stylesheet
+   after web_channel.css so these rules win the cascade. */
+
+@import url("https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&display=swap");
+
+:root {
+  --avm-background: #ffffff;
+  --avm-foreground: #12142b;
+  --avm-muted: #5c6079;
+  --avm-border-subtle: #e7e8f2;
+
+  --avm-primary-50: #ecf0fd;
+  --avm-primary-100: #d5defb;
+  --avm-primary-200: #abbdf7;
+  --avm-primary-400: #577cef;
+  --avm-primary-500: #325fec;
+  --avm-primary-600: #1340cd;
+  --avm-primary-700: #0f329f;
+  --avm-primary-900: #081a54;
+
+  --avm-font-sans: "Inter Tight", ui-sans-serif, system-ui, sans-serif;
+}
+
+body.avm-mercury,
+.conversation.avm-mercury {
+  font-family: var(--avm-font-sans);
+  background: var(--avm-background);
+  color: var(--avm-foreground);
+}
+
+/* Header */
+.avm-mercury .messages_nav-bar {
+  background: var(--avm-primary-600);
+  border-bottom: none;
+  padding: 14px 20px;
+}
+
+.avm-mercury .messages_nav-bar_title .title {
+  font-family: var(--avm-font-sans);
+  font-weight: 600;
+  font-size: 16px;
+  letter-spacing: -0.01em;
+  color: #ffffff;
+}
+
+.avm-mercury .close-bot.avm-icon-cross {
+  color: #ffffff;
+  opacity: 0.85;
+  transition: opacity 0.15s ease;
+}
+
+.avm-mercury .close-bot.avm-icon-cross:hover {
+  opacity: 1;
+}
+
+/* Message list */
+.avm-mercury .messages-view,
+.avm-mercury .messages,
+.avm-mercury #message-list-region,
+.avm-mercury #messages-list {
+  background: var(--avm-background) !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Strip every vendor wrapper down to bare layout — only .desc.text-content
+   should render as a visible bubble. Avaamo's default skin paints its own
+   card (background/border/shadow) on these, which is what produced the
+   double rounded-box look instead of a clean iMessage bubble. */
+.avm-mercury .conversation-item,
+.avm-mercury .conversation-item .media,
+.avm-mercury .conversation-item .media-body,
+.avm-mercury .conversation-item .message-wrap {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  text-indent: 0 !important;
+}
+
+/* Belt-and-braces: the vendor's grouped-message state may carry its own
+   compensating margin/indent on any of these wrappers (originally meant
+   to offset a collapsed avatar) — kill it explicitly so our own avatar
+   spacer (see .media-pic below) is the only source of indentation. */
+.avm-mercury .conversation-item.sameUserSendMessage,
+.avm-mercury .conversation-item.sameUserSendMessage .media,
+.avm-mercury .conversation-item.sameUserSendMessage .media-body,
+.avm-mercury .conversation-item.sameUserSendMessage .message-wrap {
+  margin-left: 0 !important;
+  padding-left: 0 !important;
+  text-indent: 0 !important;
+}
+
+.avm-mercury .conversation-item.sameUserSendMessage .desc.text-content,
+.avm-mercury .conversation-item.sameUserSendMessage .markdown-content {
+  margin-left: 0 !important;
+  text-indent: 0 !important;
+}
+
+.avm-mercury .conversation-item .media {
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+}
+
+.avm-mercury .conversation-item .media-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.avm-mercury .conversation-item.not-mine .media {
+  justify-content: flex-start;
+}
+
+.avm-mercury .conversation-item.mine .media {
+  justify-content: flex-end;
+}
+
+.avm-mercury .conversation-item.mine .media-pic {
+  order: 2;
+}
+
+.avm-mercury .conversation-item.mine .media-body {
+  order: 1;
+  flex: 0 1 auto;
+}
+
+.avm-mercury #snackbar {
+  background: var(--avm-primary-900);
+  color: #ffffff;
+  font-family: var(--avm-font-sans);
+  border-radius: 999px;
+}
+
+/* Message bubbles — iMessage-style: tight grouping, tailed bubbles */
+.avm-mercury #messages-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px 14px;
+}
+
+.avm-mercury .conversation-item {
+  margin-top: 12px !important;
+}
+
+.avm-mercury .conversation-item.sameUserSendMessage {
+  margin-top: 2px !important;
+}
+
+/* iMessage hides sender names in a 1:1 thread */
+.avm-mercury .conversation-item .media-body .name {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+
+/* The header only ever contained the now-hidden name + debug eye icon —
+   collapse it so it doesn't leave an empty gap above each bubble. */
+.avm-mercury .conversation-item .messages__media__header {
+  height: 0;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.avm-mercury .conversation-item .media-pic {
+  position: relative;
+  z-index: 2;
+  align-self: flex-end;
+  flex-shrink: 0 !important;
+  width: 32px !important;
+}
+
+/* The vendor's own grouping behavior for sameUserSendMessage likely
+   collapses this with display:none, which shrinks its reserved width
+   and shifts the grouped bubble out of alignment with the one above it.
+   Force it back to a same-sized, merely-invisible placeholder. */
+.avm-mercury .conversation-item.sameUserSendMessage .media-pic {
+  display: block !important;
+  width: 32px !important;
+  visibility: hidden !important;
+}
+
+/* NOTE: .desc.text-content is a <p>, but a markdown-formatted bot reply
+   renders as a nested <div class="markdown-content"> inside it. HTML
+   forbids a <div> inside a <p>, so the browser auto-closes the <p> the
+   moment it hits that div — leaving an EMPTY <p> (a ghost bubble) and
+   the real text as an unstyled sibling <div>. Plain one-line replies
+   (no nested div) don't hit this, so they render fine on their own.
+   Fix: give both possible content elements identical bubble styling,
+   and hide the <p> outright when it ends up empty. */
+.avm-mercury .conversation-item .desc.text-content:empty {
+  display: none;
+}
+
+.avm-mercury .conversation-item .desc.text-content,
+.avm-mercury .conversation-item .markdown-content {
+  position: relative;
+  font-family: var(--avm-font-sans) !important;
+  font-size: 15px !important;
+  line-height: 1.4 !important;
+  border-radius: 20px !important;
+  padding: 9px 15px !important;
+  max-width: 75%;
+  box-shadow: none !important;
+}
+
+.avm-mercury .conversation-item .markdown-content p {
+  margin: 0 0 8px;
+}
+
+.avm-mercury .conversation-item .markdown-content p:last-child {
+  margin-bottom: 0;
+}
+
+/* Bot messages ("not-mine") */
+.avm-mercury .conversation-item.not-mine .desc.text-content,
+.avm-mercury .conversation-item.not-mine .markdown-content {
+  background: var(--avm-primary-50) !important;
+  color: var(--avm-foreground) !important;
+  border: none !important;
+  border-bottom-left-radius: 4px !important;
+}
+
+.avm-mercury .conversation-item.not-mine.sameUserSendMessage .desc.text-content,
+.avm-mercury .conversation-item.not-mine.sameUserSendMessage .markdown-content {
+  border-bottom-left-radius: 20px;
+}
+
+.avm-mercury .conversation-item.not-mine .desc.text-content::before,
+.avm-mercury .conversation-item.not-mine .markdown-content::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  bottom: 0;
+  left: -7px;
+  width: 20px;
+  height: 20px;
+  background: var(--avm-primary-50);
+  border-bottom-right-radius: 16px;
+}
+
+.avm-mercury .conversation-item.not-mine .desc.text-content::after,
+.avm-mercury .conversation-item.not-mine .markdown-content::after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  bottom: 0;
+  left: -12px;
+  width: 12px;
+  height: 22px;
+  background: var(--avm-background);
+  border-bottom-right-radius: 10px;
+}
+
+.avm-mercury .conversation-item.not-mine.sameUserSendMessage .desc.text-content::before,
+.avm-mercury .conversation-item.not-mine.sameUserSendMessage .desc.text-content::after,
+.avm-mercury .conversation-item.not-mine.sameUserSendMessage .markdown-content::before,
+.avm-mercury .conversation-item.not-mine.sameUserSendMessage .markdown-content::after {
+  display: none;
+}
+
+/* Debug-mode-only affordance (message insight eye icon) — not part of
+   the production chat UI, hide it. */
+.avm-mercury .insight-toggle {
+  display: none !important;
+}
+
+/* User messages ("mine") */
+.avm-mercury .conversation-item.mine .desc.text-content {
+  background: var(--avm-primary-500) !important;
+  color: #ffffff !important;
+  border: none !important;
+  border-bottom-right-radius: 4px !important;
+  max-width: 85%;
+  margin-left: auto;
+}
+
+.avm-mercury .conversation-item.mine.sameUserSendMessage .desc.text-content {
+  border-bottom-right-radius: 20px;
+}
+
+.avm-mercury .conversation-item.mine .desc.text-content::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  bottom: 0;
+  right: -7px;
+  width: 20px;
+  height: 20px;
+  background: var(--avm-primary-500);
+  border-bottom-left-radius: 16px;
+}
+
+.avm-mercury .conversation-item.mine .desc.text-content::after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  bottom: 0;
+  right: -12px;
+  width: 12px;
+  height: 22px;
+  background: var(--avm-background);
+  border-bottom-left-radius: 10px;
+}
+
+.avm-mercury .conversation-item.mine.sameUserSendMessage .desc.text-content::before,
+.avm-mercury .conversation-item.mine.sameUserSendMessage .desc.text-content::after {
+  display: none;
+}
+
+.avm-mercury .conversation-item.mine .media-pic img {
+  border-radius: 999px;
+}
+
+.avm-mercury .conversation-item .time-stamp {
+  display: flex;
+}
+
+.avm-mercury .conversation-item.mine .time-stamp {
+  justify-content: flex-end;
+}
+
+.avm-mercury .conversation-item .time-stamp .date {
+  font-family: var(--avm-font-sans);
+  font-size: 11px;
+  color: var(--avm-muted);
+  margin-top: 3px;
+}
+
+.avm-mercury .conversation-item .check-icon.sent {
+  color: var(--avm-primary-400);
+}
+
+/* Typing / loading dots */
+.avm-mercury .spinner .bounce1,
+.avm-mercury .spinner .bounce2,
+.avm-mercury .spinner .bounce3 {
+  background: var(--avm-primary-500);
+}
+
+#stop-typing.send {
+  font-family: var(--avm-font-sans);
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--avm-primary-600);
+  background: var(--avm-primary-50);
+  border: 1px solid var(--avm-primary-200);
+  border-radius: 999px;
+  padding: 6px 14px;
+}
+
+/* Voice / speech overlay */
+.avm-mercury .speech {
+  background: var(--avm-primary-900);
+}
+
+.avm-mercury .speech .speech-text {
+  font-family: var(--avm-font-sans);
+  color: #ffffff;
+}
+
+.avm-mercury .speech .circle {
+  border-color: var(--avm-primary-400);
+}
+
+/* Composer — iMessage-style pill field with a circular arrow send button */
+.avm-mercury #messageEditor-region,
+.avm-mercury #messageEditor-region * {
+  box-shadow: none !important;
+}
+
+.avm-mercury #messageEditor-region {
+  border: none !important;
+}
+
+.avm-mercury .conversation-form.bottom {
+  background: var(--avm-background);
+  border: none !important;
+  padding: 10px 12px;
+}
+
+.avm-mercury .editor-wrapper {
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  padding: 0;
+}
+
+.avm-mercury .compose-message-fields {
+  align-items: center;
+  gap: 8px;
+  border: none !important;
+  border-radius: 0 !important;
+}
+
+.avm-mercury .textarea-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  height: 40px;
+  border: 1.5px solid var(--avm-border-subtle);
+  border-radius: 999px;
+  background: #ffffff;
+  padding: 2px 6px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.avm-mercury .textarea-wrap:focus-within {
+  border-color: var(--avm-primary-400);
+}
+
+/* Pin to a single-line height so the pill doesn't grow/shrink between
+   the empty placeholder state and typed text — override with !important
+   since the widget's auto-resize script sets an inline height on typing. */
+.avm-mercury textarea.type-message {
+  font-family: var(--avm-font-sans);
+  font-size: 15px;
+  line-height: 20px;
+  color: var(--avm-foreground);
+  background: transparent;
+  padding: 8px 10px;
+  height: 20px !important;
+  max-height: 20px !important;
+  min-height: 20px !important;
+  overflow-y: auto;
+  resize: none;
+  box-sizing: content-box;
+}
+
+.avm-mercury textarea.type-message::placeholder {
+  color: var(--avm-muted);
+}
+
+.avm-mercury button.send[data-ele-name="send"] {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  font-size: 0 !important;
+  line-height: 0;
+  color: transparent !important;
+  background: var(--avm-primary-500) !important;
+  background-image: none !important;
+  border-radius: 999px;
+  transition:
+    background-color 0.15s ease,
+    transform 0.1s ease;
+}
+
+/* The vendor skin renders its own send icon (font-icon or background
+   image) on this button — clear it so only our chevron below shows. */
+.avm-mercury button.send[data-ele-name="send"] * {
+  display: none !important;
+}
+
+.avm-mercury button.send[data-ele-name="send"]::after {
+  content: none !important;
+}
+
+.avm-mercury button.send[data-ele-name="send"]::before {
+  content: "" !important;
+  display: block !important;
+  box-sizing: border-box;
+  width: 10px;
+  height: 10px;
+  border: none !important;
+  border-top: 2.5px solid #ffffff !important;
+  border-right: 2.5px solid #ffffff !important;
+  transform: rotate(45deg) translateX(-1px);
+  background: none !important;
+}
+
+.avm-mercury button.send[data-ele-name="send"]:hover {
+  background: var(--avm-primary-600);
+}
+
+.avm-mercury button.send[data-ele-name="send"]:active {
+  transform: scale(0.94);
+}
+
+.avm-mercury .switch-menu {
+  color: var(--avm-muted);
+}
+
+.avm-mercury .switch-menu:hover {
+  color: var(--avm-primary-600);
+}
+
+/* Bot menu */
+.avm-mercury .botMenu__title {
+  font-family: var(--avm-font-sans);
+  font-weight: 600;
+  color: var(--avm-foreground);
+}
+
+.avm-mercury .botMenu__menu button {
+  font-family: var(--avm-font-sans);
+  color: var(--avm-primary-700);
+  background: var(--avm-primary-50);
+  border-radius: 999px;
+}
+
+/* Quick replies */
+.avm-mercury .quick-reply-container button {
+  font-family: var(--avm-font-sans);
+  color: var(--avm-primary-700);
+  background: #ffffff;
+  border: 1px solid var(--avm-primary-200);
+  border-radius: 999px;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.avm-mercury .quick-reply-container button:hover {
+  background: var(--avm-primary-50);
+  border-color: var(--avm-primary-400);
+}
+
+/* Modals (feedback, webview) */
+.avm-mercury .modal-content {
+  font-family: var(--avm-font-sans);
+  border-radius: 20px;
+  border: 1px solid var(--avm-border-subtle);
+}
+
+.avm-mercury .modal-title,
+.avm-mercury .webview_title {
+  font-family: var(--avm-font-sans);
+  font-weight: 600;
+  color: var(--avm-foreground);
+}
+
+.avm-mercury .feedback.form-control {
+  font-family: var(--avm-font-sans);
+  border: 1px solid var(--avm-border-subtle);
+  border-radius: 12px;
+}
+
+.avm-mercury .btn.btn-default.submit {
+  font-family: var(--avm-font-sans);
+  font-weight: 600;
+  background: var(--avm-primary-600);
+  border-color: var(--avm-primary-600);
+  color: #ffffff;
+  border-radius: 999px;
+}
+
+.avm-mercury .btn.btn-default.submit:hover {
+  background: var(--avm-primary-700);
+  border-color: var(--avm-primary-700);
+}
+
+.avm-mercury .btn.btn-danger.cancel {
+  font-family: var(--avm-font-sans);
+  font-weight: 600;
+  background: transparent;
+  border: 1px solid var(--avm-border-subtle);
+  color: var(--avm-muted);
+  border-radius: 999px;
+}
+
+.avm-mercury .btn.btn-danger.cancel:hover {
+  border-color: var(--avm-primary-200);
+  color: var(--avm-primary-600);
+}
+
+/* Scrollbar */
+.avm-mercury .messages::-webkit-scrollbar {
+  width: 6px;
+}
+
+.avm-mercury .messages::-webkit-scrollbar-thumb {
+  background: var(--avm-primary-200);
+  border-radius: 999px;
+}
