@@ -1,5 +1,6 @@
 import Navbar from "@/components/Navbar";
 import AvaamoWidget from "@/components/AvaamoWidget";
+import TryAskingList from "@/components/TryAskingList";
 
 export default function AssistantPage() {
   return (
@@ -22,16 +23,29 @@ export default function AssistantPage() {
             </h1>
 
             <p className="mt-6 text-lg leading-relaxed text-muted">
-              This is placeholder copy for the assistant page. Replace this
-              section with real content describing what the agent can do,
-              example prompts, or a walkthrough of the assistant's
-              capabilities.
+              Alex is your ITSM assistant — it handles ticket activity end to
+              end, so you can skip the forms and just ask.
             </p>
 
-            <p className="mt-4 text-lg leading-relaxed text-muted">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            </p>
+            <div className="mt-5 flex flex-wrap gap-2">
+              {["Status", "Create", "Comment", "Resolve", "Cancel"].map(
+                (action) => (
+                  <span
+                    key={action}
+                    className="inline-flex items-center rounded-full bg-primary-50 px-3.5 py-1.5 text-[13px] font-medium text-primary-700"
+                  >
+                    {action}
+                  </span>
+                ),
+              )}
+            </div>
+
+            <div className="mt-9 w-full">
+              <p className="text-[13px] font-semibold uppercase tracking-wide text-muted">
+                Try asking
+              </p>
+              <TryAskingList />
+            </div>
           </div>
 
           {/* right: widget */}
