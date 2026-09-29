@@ -162,7 +162,7 @@ export default function DocsContent() {
       <Section id="sec-1">
         <div>
           <span className="text-[13px] font-semibold uppercase tracking-wide text-primary-600">
-            Section 1
+            Section 2
           </span>
           <H2 id="sec-1-heading">
             ITSM Governance, Frameworks, and Operational Principles
@@ -170,7 +170,7 @@ export default function DocsContent() {
         </div>
 
         <Sub>
-          <H3 id="sec-1-1">1.1 Introduction to the ITSM Framework</H3>
+          <H3 id="sec-1-1">2.1 Introduction to the ITSM Framework</H3>
           <P>
             This document serves as the official Knowledge Base and Standard
             Operating Procedure (SOP) manual for the Enterprise IT Service
@@ -190,7 +190,7 @@ export default function DocsContent() {
         </Sub>
 
         <Sub>
-          <H3 id="sec-1-2">1.2 Governance Principles for Automated Agents</H3>
+          <H3 id="sec-1-2">2.2 Governance Principles for Automated Agents</H3>
           <P>
             Automated systems, including Model Context Protocol (MCP)
             agents and conversational virtual assistants, are governed by
@@ -241,7 +241,7 @@ export default function DocsContent() {
       <Section id="sec-2">
         <div>
           <span className="text-[13px] font-semibold uppercase tracking-wide text-primary-600">
-            Section 2
+            Section 3
           </span>
           <H2 id="sec-2-heading">
             Ticket Classification and Lifecycle Management
@@ -249,7 +249,7 @@ export default function DocsContent() {
         </div>
 
         <Sub>
-          <H3 id="sec-2-1">2.1 Incidents vs. Service Requests</H3>
+          <H3 id="sec-2-1">3.1 Incidents vs. Service Requests</H3>
           <P>
             To maintain database integrity and accurate SLA (Service Level
             Agreement) reporting, enterprise work items are strictly split
@@ -341,7 +341,7 @@ export default function DocsContent() {
         </Sub>
 
         <Sub>
-          <H3 id="sec-2-2">2.2 Comprehensive Ticket Status Schema</H3>
+          <H3 id="sec-2-2">3.2 Comprehensive Ticket Status Schema</H3>
           <P>
             Every ticket in the enterprise single-collection database
             architecture resides in exactly one of six standardized status
@@ -387,7 +387,7 @@ export default function DocsContent() {
       <Section id="sec-3">
         <div>
           <span className="text-[13px] font-semibold uppercase tracking-wide text-primary-600">
-            Section 3
+            Section 4
           </span>
           <H2 id="sec-3-heading">
             Detailed Operational Flows and Decision Rules
@@ -395,7 +395,7 @@ export default function DocsContent() {
         </div>
 
         <Sub>
-          <H3 id="sec-3-1">3.1 Status Check Workflow Rules</H3>
+          <H3 id="sec-3-1">4.1 Status Check Workflow Rules</H3>
           <OL>
             <li>
               <strong className="text-foreground">
@@ -435,7 +435,7 @@ export default function DocsContent() {
         </Sub>
 
         <Sub>
-          <H3 id="sec-3-2">3.2 Add Comment Workflow Rules</H3>
+          <H3 id="sec-3-2">4.2 Add Comment Workflow Rules</H3>
           <OL>
             <li>
               <strong className="text-foreground">
@@ -478,7 +478,7 @@ export default function DocsContent() {
         </Sub>
 
         <Sub>
-          <H3 id="sec-3-3">3.3 Ticket Resolution Workflow Rules</H3>
+          <H3 id="sec-3-3">4.3 Ticket Resolution Workflow Rules</H3>
           <OL>
             <li>
               <strong className="text-foreground">Status Pre-Check</strong>:
@@ -518,7 +518,7 @@ export default function DocsContent() {
         </Sub>
 
         <Sub>
-          <H3 id="sec-3-4">3.4 Service Request Cancellation Workflow Rules</H3>
+          <H3 id="sec-3-4">4.4 Service Request Cancellation Workflow Rules</H3>
           <OL>
             <li>
               <strong className="text-foreground">
@@ -565,7 +565,7 @@ export default function DocsContent() {
 
         <Sub>
           <H3 id="sec-3-5">
-            3.5 Incident Reopening Workflow Rules (Incidents Only)
+            4.5 Incident Reopening Workflow Rules (Incidents Only)
           </H3>
           <OL>
             <li>
@@ -621,7 +621,7 @@ export default function DocsContent() {
       <Section id="sec-4">
         <div>
           <span className="text-[13px] font-semibold uppercase tracking-wide text-primary-600">
-            Section 4
+            Section 5
           </span>
           <H2 id="sec-4-heading">
             Knowledge Base Articles and Troubleshooting SOPs
@@ -771,7 +771,7 @@ export default function DocsContent() {
       <Section id="sec-5">
         <div>
           <span className="text-[13px] font-semibold uppercase tracking-wide text-primary-600">
-            Section 5
+            Section 6
           </span>
           <H2 id="sec-5-heading">
             Security, Compliance, and Emergency Escalations
@@ -779,7 +779,7 @@ export default function DocsContent() {
         </div>
 
         <Sub>
-          <H3 id="sec-5-1">5.1 Data Protection and Handling</H3>
+          <H3 id="sec-5-1">6.1 Data Protection and Handling</H3>
           <UL>
             <li>
               <strong className="text-foreground">
@@ -803,7 +803,7 @@ export default function DocsContent() {
 
         <Sub>
           <H3 id="sec-5-2">
-            5.2 Critical System Outages (Priority 1 and Priority 2
+            6.2 Critical System Outages (Priority 1 and Priority 2
             Emergencies)
           </H3>
           <UL>
@@ -828,7 +828,7 @@ export default function DocsContent() {
         </Sub>
 
         <Sub>
-          <H3 id="sec-5-3">5.3 Reporting Security Incidents</H3>
+          <H3 id="sec-5-3">6.3 Reporting Security Incidents</H3>
           <UL>
             <li>
               <strong className="text-foreground">

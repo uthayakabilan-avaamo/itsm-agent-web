@@ -1,6 +1,7 @@
 import Navbar from "@/components/Navbar";
 import DocsSidebar from "@/components/docs/DocsSidebar";
 import DocsContent from "@/components/docs/DocsContent";
+import TroubleshootingLibrary from "@/components/docs/TroubleshootingLibrary";
 
 export default function DocsPage() {
   return (
@@ -33,6 +34,7 @@ export default function DocsPage() {
             </div>
 
             <div className="divide-y divide-border-subtle">
+              <TroubleshootingLibrary />
               <DocsContent />
             </div>
           </div>
