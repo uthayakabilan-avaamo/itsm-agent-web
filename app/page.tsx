@@ -1,6 +1,6 @@
 import Navbar from "@/components/Navbar";
 import HeroVisual from "@/components/HeroVisual";
-import AssistantFab from "@/components/AssistantFab";
+import AvaamoChatbotWidget from "@/components/AvaamoChatbotWidget";
 
 const TRUST_ITEMS = ["SOC 2 Type II", "99.99% uptime", "Deploys in under a day"];
 
@@ -64,7 +64,7 @@ export default function Home() {
         </section>
       </main>
 
-      <AssistantFab />
+      <AvaamoChatbotWidget />
     </div>
   );
 }

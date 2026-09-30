@@ -200,7 +200,8 @@ body.avm-mercury,
 }
 
 .avm-mercury .conversation-item .desc.text-content,
-.avm-mercury .conversation-item .markdown-content {
+.avm-mercury .conversation-item .markdown-content,
+.avm-mercury .conversation-item .desc.attachment-container {
   position: relative;
   font-family: var(--avm-font-sans) !important;
   font-size: 15px !important;
@@ -211,6 +212,15 @@ body.avm-mercury,
   box-shadow: none !important;
 }
 
+/* The vendor's own markdown renderer sets font-family on individual
+   elements (p, li, strong, a, code, …), which wins over the inherited
+   value from the bubble above — force it on every descendant. */
+.avm-mercury .conversation-item .desc.text-content *,
+.avm-mercury .conversation-item .markdown-content *,
+.avm-mercury .conversation-item .desc.attachment-container * {
+  font-family: var(--avm-font-sans) !important;
+}
+
 .avm-mercury .conversation-item .markdown-content p {
   margin: 0 0 8px;
 }
@@ -219,22 +229,44 @@ body.avm-mercury,
   margin-bottom: 0;
 }
 
+.avm-mercury .conversation-item .markdown-content ul,
+.avm-mercury .conversation-item .markdown-content ol {
+  margin: 0 0 8px;
+  padding-left: 20px;
+}
+
+.avm-mercury .conversation-item .markdown-content li + li {
+  margin-top: 4px;
+}
+
+.avm-mercury .conversation-item .markdown-content code {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.9em;
+  background: rgba(18, 20, 43, 0.06);
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+
 /* Bot messages ("not-mine") */
 .avm-mercury .conversation-item.not-mine .desc.text-content,
-.avm-mercury .conversation-item.not-mine .markdown-content {
+.avm-mercury .conversation-item.not-mine .markdown-content,
+.avm-mercury .conversation-item.not-mine .desc.attachment-container {
   background: var(--avm-primary-50) !important;
   color: var(--avm-foreground) !important;
   border: none !important;
   border-bottom-left-radius: 4px !important;
+  max-width: 85%;
 }
 
 .avm-mercury .conversation-item.not-mine.sameUserSendMessage .desc.text-content,
-.avm-mercury .conversation-item.not-mine.sameUserSendMessage .markdown-content {
+.avm-mercury .conversation-item.not-mine.sameUserSendMessage .markdown-content,
+.avm-mercury .conversation-item.not-mine.sameUserSendMessage .desc.attachment-container {
   border-bottom-left-radius: 20px;
 }
 
 .avm-mercury .conversation-item.not-mine .desc.text-content::before,
-.avm-mercury .conversation-item.not-mine .markdown-content::before {
+.avm-mercury .conversation-item.not-mine .markdown-content::before,
+.avm-mercury .conversation-item.not-mine .desc.attachment-container::before {
   content: "";
   position: absolute;
   z-index: 0;
@@ -247,7 +279,8 @@ body.avm-mercury,
 }
 
 .avm-mercury .conversation-item.not-mine .desc.text-content::after,
-.avm-mercury .conversation-item.not-mine .markdown-content::after {
+.avm-mercury .conversation-item.not-mine .markdown-content::after,
+.avm-mercury .conversation-item.not-mine .desc.attachment-container::after {
   content: "";
   position: absolute;
   z-index: 1;
@@ -262,13 +295,311 @@ body.avm-mercury,
 .avm-mercury .conversation-item.not-mine.sameUserSendMessage .desc.text-content::before,
 .avm-mercury .conversation-item.not-mine.sameUserSendMessage .desc.text-content::after,
 .avm-mercury .conversation-item.not-mine.sameUserSendMessage .markdown-content::before,
-.avm-mercury .conversation-item.not-mine.sameUserSendMessage .markdown-content::after {
+.avm-mercury .conversation-item.not-mine.sameUserSendMessage .markdown-content::after,
+.avm-mercury .conversation-item.not-mine.sameUserSendMessage .desc.attachment-container::before,
+.avm-mercury .conversation-item.not-mine.sameUserSendMessage .desc.attachment-container::after {
   display: none;
+}
+
+/* Citation / document-answer messages ("attachment-container") — unlike
+   .desc.text-content (a <p>), this wrapper is a real <div>, so its nested
+   .default_card/.markdown-content structure nests validly and doesn't hit
+   the auto-closed-<p> quirk above. Treat the outer wrapper as the single
+   bubble and strip every nested layer back to bare, unstyled content so
+   it doesn't paint a second bubble inside the first. */
+.avm-mercury .conversation-item .desc.attachment-container .default_card,
+.avm-mercury .conversation-item .desc.attachment-container .default_card_description,
+.avm-mercury .conversation-item .desc.attachment-container .avm-xml-html,
+.avm-mercury .conversation-item .desc.attachment-container .markdown-content {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  max-width: none !important;
+  position: static !important;
+}
+
+.avm-mercury .conversation-item .desc.attachment-container .markdown-content::before,
+.avm-mercury .conversation-item .desc.attachment-container .markdown-content::after {
+  content: none !important;
+}
+
+.avm-mercury .conversation-item .md-citation {
+  color: var(--avm-primary-600);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.avm-mercury .conversation-item .md-citation:hover {
+  text-decoration: underline;
+}
+
+/* Carousel messages ("card_carousel_container") — same bubble as the
+   citation message (background/radius from .desc.attachment-container
+   above), but laid out as [prev btn][scroller][next btn] instead of a
+   single text block, and given more room since a card needs it. These
+   selectors carry more classes than the citation "neutralize" rule above,
+   so they win on specificity for the pieces that need real spacing back. */
+.avm-mercury .conversation-item .desc.attachment-container:has(.card_carousel_container) {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center;
+  gap: 6px;
+  max-width: 100%;
+  padding: 10px !important;
+  background: transparent !important;
+}
+
+.avm-mercury .conversation-item .desc.attachment-container:has(.card_carousel_container)::before,
+.avm-mercury .conversation-item .desc.attachment-container:has(.card_carousel_container)::after {
+  content: none !important;
+}
+
+.avm-mercury .conversation-item .card_carousel_container.scroll__x {
+  flex: 1;
+  min-width: 0;
+}
+
+/* .scroll-element itself carries its own "flexColumn"-equivalent stacking
+   from the vendor skin (separate from the outer bubble's, fixed above),
+   so it needs the same row-direction fix. Its width/flex-basis, and
+   .card_carousel's, are deliberately left untouched (no width/flex-basis
+   overrides here) — the vendor's JS computes the nav buttons' slide
+   distance from those actual pixel widths, and overriding them is what
+   broke the arrows earlier. */
+.avm-mercury .conversation-item .card_carousel_container .scroll-element {
+  display: flex !important;
+  flex-direction: row !important;
+}
+
+.avm-mercury .conversation-item .card_carousel {
+  padding: 0 16px !important;
+  box-sizing: border-box !important;
+  margin-right: 16px !important;
+  background: var(--avm-primary-50) !important;
+  border-radius: 12px !important;
+}
+
+/* .scroll-element is a flex row, so by default every .card_carousel
+   stretches to match the tallest card's height — without this, a shorter
+   card's "View details" ends up mid-card instead of at the bottom. Make
+   the card itself a column and pin the links group to the bottom. */
+.avm-mercury .conversation-item .card_carousel .default_card {
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100% !important;
+  padding: 14px 0 !important;
+  margin: 0 !important;
+  background: transparent !important;
+  box-sizing: border-box !important;
+}
+
+.avm-mercury .conversation-item .default_card_title {
+  font-weight: 700 !important;
+  font-size: 15px !important;
+  color: var(--avm-foreground) !important;
+  margin-bottom: 6px !important;
+  padding-left: 0 !important;
+}
+
+.avm-mercury .conversation-item .card_carousel .default_card_description {
+  font-size: 13.5px !important;
+  line-height: 1.5 !important;
+  color: var(--avm-foreground) !important;
+  padding: 0 !important;
+  margin: 0 0 10px !important;
+}
+
+.avm-mercury .conversation-item .default_card_links_group {
+  border-top: none !important;
+  padding-top: 8px !important;
+  margin-top: auto !important;
+}
+
+.avm-mercury .conversation-item .default_card_link,
+.avm-mercury .conversation-item .default_card_link:hover,
+.avm-mercury .conversation-item .default_card_link:focus,
+.avm-mercury .conversation-item .default_card_link:active {
+  padding-left: 0 !important;
+  background: transparent !important;
+}
+
+.avm-mercury .conversation-item .default_card_link a,
+.avm-mercury .conversation-item .default_card_link a:hover,
+.avm-mercury .conversation-item .default_card_link a:focus,
+.avm-mercury .conversation-item .default_card_link a:active {
+  background: transparent !important;
+  color: var(--avm-primary-700) !important;
+  font-weight: 600 !important;
+  font-size: 13.5px !important;
+  text-decoration: none !important;
+}
+
+.avm-mercury .conversation-item .desc.attachment-container .navigator {
+  flex-shrink: 0;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  border: 1.5px solid var(--avm-primary-200);
+  color: var(--avm-primary-600);
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.avm-mercury .conversation-item .desc.attachment-container .navigator:hover:not(:disabled) {
+  background: #ffffff;
+}
+
+.avm-mercury .conversation-item .desc.attachment-container .navigator:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.avm-mercury .sr-only {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* List-view messages (e.g. a ticket list) — same auto-closed-<p> quirk as
+   markdown replies: the browser can't nest a <div> inside <p class="desc
+   text-content">, so .list-container ends up as a sibling <div> inside
+   .message-wrap rather than actually inside the <p>. Style it as a plain
+   card instead of a chat bubble — no tail, no bubble background. */
+.avm-mercury .conversation-item .list-container {
+  display: flex;
+  flex-direction: column;
+  max-width: 85%;
+}
+
+.avm-mercury .conversation-item .list-container > div {
+  background: #ffffff;
+  border: 1px solid var(--avm-border-subtle);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.avm-mercury .conversation-item .list-container > div + div {
+  margin-top: 8px;
+}
+
+.avm-mercury .conversation-item .list-container .list-item {
+  padding: 12px 14px;
+}
+
+.avm-mercury .conversation-item .list-container .fixed {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+}
+
+.avm-mercury .conversation-item .list-container .item-title {
+  font-family: var(--avm-font-sans);
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--avm-foreground);
+}
+
+.avm-mercury .conversation-item .list-container .item-subtitle {
+  font-family: var(--avm-font-sans);
+  font-size: 13px;
+  line-height: 1.35;
+  color: var(--avm-muted);
+}
+
+.avm-mercury .conversation-item .list-container .fit-link-to-card.button {
+  margin-top: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: #ffffff;
+  border: 1.5px solid #325fec;
+  color: #325fec;
+  font-family: var(--avm-font-sans);
+  font-size: 12.5px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color 0.15s ease;
+}
+
+.avm-mercury .conversation-item .list-container .fit-link-to-card.button:hover {
+  background: var(--avm-primary-50);
+}
+
+.avm-mercury .conversation-item .list-container .divider {
+  display: none;
+}
+
+/* Quick-reply link list ("links-container") — renders inside the vendor's
+   own #quick-reply-container (composer region), not inside a
+   .conversation-item, and as <a class="quick-reply"> tags rather than the
+   <button> the older .quick-reply-container rule below assumes — so it
+   needs its own unscoped selectors. Same pill treatment as the list-card's
+   "View details" button: white background, brand outline. */
+.avm-mercury .quick-reply-container {
+  background: transparent !important;
+  padding: 0 0 10px;
+}
+
+.avm-mercury .links-container.inner-cont {
+  max-width: 100%;
+}
+
+.avm-mercury .avm-quick-reply-ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.avm-mercury .avm-quick-reply-ul .quick-reply,
+.avm-mercury .avm-quick-reply-ul .quick-reply:hover,
+.avm-mercury .avm-quick-reply-ul .quick-reply:focus,
+.avm-mercury .avm-quick-reply-ul .quick-reply:active {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: #ffffff !important;
+  border: 1.5px solid #325fec !important;
+  color: #325fec !important;
+  font-family: var(--avm-font-sans) !important;
+  font-size: 12.5px;
+  font-weight: 600;
+  text-decoration: none;
+  transform: none !important;
+  transition: none !important;
 }
 
 /* Debug-mode-only affordance (message insight eye icon) — not part of
    the production chat UI, hide it. */
 .avm-mercury .insight-toggle {
+  display: none !important;
+}
+
+.avm-mercury .feedback-form {
   display: none !important;
 }
 
@@ -315,8 +646,11 @@ body.avm-mercury,
   display: none;
 }
 
-.avm-mercury .conversation-item.mine .media-pic img {
+.avm-mercury .conversation-item .media-pic img {
   border-radius: 999px;
+  width: 32px;
+  height: 32px;
+  object-fit: cover;
 }
 
 .avm-mercury .conversation-item .time-stamp {
@@ -383,7 +717,6 @@ body.avm-mercury,
 .avm-mercury .conversation-form.bottom {
   background: var(--avm-background);
   border: none !important;
-  padding: 10px 12px;
 }
 
 .avm-mercury .editor-wrapper {

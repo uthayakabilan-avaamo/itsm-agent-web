@@ -7,7 +7,13 @@ const WIDGET_URL =
 
 declare global {
   interface Window {
-    Avaamo?: { addFrame: () => void };
+    Avaamo?: {
+      addFrame: () => void;
+      sendMessage: (message: string) => void;
+      onChatBoxOpen?: () => void;
+      onChatBoxClose?: () => void;
+      onBotMessage?: (message: { event_type?: string; [key: string]: unknown }) => void;
+    };
   }
 }
 

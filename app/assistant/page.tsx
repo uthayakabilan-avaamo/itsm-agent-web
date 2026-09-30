@@ -1,5 +1,4 @@
 import Navbar from "@/components/Navbar";
-import AvaamoWidget from "@/components/AvaamoWidget";
 import TryAskingList from "@/components/TryAskingList";
 
 export default function AssistantPage() {
@@ -49,9 +48,7 @@ export default function AssistantPage() {
           </div>
 
           {/* right: widget */}
-          <div className="flex items-stretch justify-center lg:pl-6">
-            <AvaamoWidget />
-          </div>
+          <div className="flex items-stretch justify-center lg:pl-6" />
         </section>
       </main>
     </div>

@@ -1,6 +1,4 @@
 import Navbar from "@/components/Navbar";
-// import AvaamoWidget from "@/components/AvaamoWidget";
-import AvaamoClassicDemoWidget from "@/components/AvaamoClassicDemoWidget";
 
 export default function WidgetDemoPage() {
   return (
@@ -12,9 +10,6 @@ export default function WidgetDemoPage() {
           The chat widget demo banner appears in the bottom corner.
         </p>
       </main>
-
-      {/* <AvaamoWidget /> */}
-      <AvaamoClassicDemoWidget />
     </div>
   );
 }
