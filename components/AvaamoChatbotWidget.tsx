@@ -2,9 +2,8 @@
 
 import { useEffect, useState, type CSSProperties } from "react";
 
-const JWT = "88b19b26-976d-404d-a2a0-f61eeed4a0f8";
-
-const WIDGET_URL = `https://h1.avaamo.com/web_channels/ec7cfd21-deb8-4c31-a8e5-2dd1f97c64d6?user_info=${JWT}`;
+const WIDGET_URL =
+  "https://h1.avaamo.com/web_channels/ec7cfd21-deb8-4c31-a8e5-2dd1f97c64d6";
 
 type AvaamoBotMessage = {
   event_type?: string;
