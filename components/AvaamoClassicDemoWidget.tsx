@@ -12,6 +12,7 @@ declare global {
       sendMessage: (message: string) => void;
       onChatBoxOpen?: () => void;
       onChatBoxClose?: () => void;
+      onChannelLoaded?: () => void;
       onBotMessage?: (message: { event_type?: string; [key: string]: unknown }) => void;
     };
   }

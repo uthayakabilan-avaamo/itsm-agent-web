@@ -17,6 +17,7 @@ declare global {
       sendMessage: (message: string) => void;
       onChatBoxOpen?: () => void;
       onChatBoxClose?: () => void;
+      onChannelLoaded?: () => void;
       onBotMessage?: (message: AvaamoBotMessage) => void;
     };
   }
@@ -38,7 +39,14 @@ export default function AvaamoChatbotWidget() {
     let cancelled = false;
 
     const attachHandlers = (avaamo: NonNullable<Window["Avaamo"]>) => {
-      avaamo.onChatBoxOpen = () => setShowButtons(true);
+      let channelLoaded = false;
+      avaamo.onChannelLoaded = () => {
+        channelLoaded = true;
+        setShowButtons(true);
+      };
+      avaamo.onChatBoxOpen = () => {
+        if (channelLoaded) setShowButtons(true);
+      };
       avaamo.onChatBoxClose = () => setShowButtons(false);
       avaamo.onBotMessage = (message) => {
         if (message?.event_type === "chat_terminated") {
@@ -114,8 +122,12 @@ export default function AvaamoChatbotWidget() {
         type="button"
         onClick={handleEndLiveAgentClick}
         style={buttonStyle(showButtons && isLiveAgentActive)}
-        className="rounded-full border border-border-subtle bg-white px-4 py-2 text-[14px] font-semibold text-foreground shadow-sm transition-colors hover:border-primary-200 hover:bg-primary-50"
+        className="inline-flex items-center gap-1.5 rounded-full border border-border-subtle bg-white px-4 py-2 text-[14px] font-semibold text-foreground shadow-sm transition-colors hover:border-primary-200 hover:bg-primary-50"
       >
+        <span
+          aria-hidden="true"
+          className="h-2 w-2 shrink-0 rounded-full bg-red-500"
+        />
         End live agent
       </button>
     </>
